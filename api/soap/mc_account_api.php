@@ -63,3 +63,49 @@ function mci_account_get_array_by_ids ( array $p_user_ids ) {
 
 	return $t_result;
 }
+/** 
++* Add a new user.
++*
++* @param string $p_username  The name of the user trying to create an account.
++* @param string $p_password  The password of the user.
++* @param Array $p_user A new AccountData structure
++* @return integer the new users's users_id
++*/
+function mc_account_add( $p_username, $p_password, $newusername, $newuserrealname, $newuseremail, $newuseraccess, $p_pass ) {
+	$t_user_id = mci_check_login( $p_username, $p_password );               
+	if ( $t_user_id === false ) {
+            return mci_soap_fault_login_failed();
+	}
+
+	if ( !mci_has_administrator_access( $t_user_id ) ) {
+		return mci_soap_fault_access_denied( 'Client', '', 'Access Denied', 'User does not have administrator access');
+	}
+//error_log('p_password - ' . $p_password);
+//error_log('p_pass-'. $p_pass);
+//error_log('dumping..' . var_dump($p_user));
+//error_log('this is defined vars...' . var_dump(xdebug_get_declared_vars()));
+	// extract( $p_user, EXTR_PREFIX_ALL, 'v');
+	// validate user object
+	if ( is_blank($newusername)) return new soap_fault('Client', '', 'Mandatory field "name" was missing');
+	if ( is_blank($newuserrealname) ) return new soap_fault('Client', '', 'Mandatory field "real_name" was missing');
+	if ( is_blank($newuseremail) ) return new soap_fault('Client', '', 'Mandatory field "email" was missing');
+
+	if ( !user_is_name_valid( $newusername ) ) return new soap_fault( 'Client', '', 'user name invalid');
+	if ( !user_is_name_unique( $newusername ) ) return mci_soap_fault_user_exists( 'Client', '', 'user name exists');
+	if ( !user_is_realname_valid( $newuserrealname ) ) return new soap_fault( 'Client', '', 'real name invalid');
+
+	// set defaults
+	if ( is_null( $newuseraccess ) ) $newuseraccess = VIEWER;
+
+	// create user account and get it's id
+	user_create($newusername, $p_pass, $newuseremail, $newuseraccess, false, true, $newuserrealname);
+	$t_user_id = user_get_id_by_name($newusername);
+
+	// return id of new user back to caller
+	return $t_user_id;
+}
+
+function mci_soap_fault_user_exists() {
+	return SoapObjectsFactory::newSoapFault('Client', 'User Already Exists');
+}
+
