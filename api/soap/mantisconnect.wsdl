@@ -559,6 +559,11 @@
   <part name="project" type="tns:ProjectData" /></message>
 <message name="mc_project_addResponse">
   <part name="return" type="xsd:integer" /></message>
+  <message name="mc_project_add_subprojectRequest">
+  <part name="parent_id" type="xsd:string" />
+  <part name="child_id" type="xsd:string" /></message>
+<message name="mc_project_add_subprojectResponse">
+  <part name="return" type="xsd:boolean" /></message>
 <message name="mc_project_deleteRequest">
   <part name="username" type="xsd:string" />
   <part name="password" type="xsd:string" />
@@ -981,6 +986,11 @@
     <input message="tns:mc_project_addRequest"/>
     <output message="tns:mc_project_addResponse"/>
   </operation>
+    <operation name="mc_project_add_subproject">
+    <documentation>Link a project as a subproject (must have admin privileges)</documentation>
+    <input message="tns:mc_project_add_subprojectRequest"/>
+    <output message="tns:mc_project_add_subprojectResponse"/>
+  </operation>
   <operation name="mc_project_delete">
     <documentation>Add a new project to the tracker (must have admin privileges)</documentation>
     <input message="tns:mc_project_deleteRequest"/>
@@ -1326,6 +1336,11 @@
   </operation>
   <operation name="mc_project_add">
     <soap:operation soapAction="http://www.mantisbt.org/bugs/api/soap/mantisconnect.php/mc_project_add" style="rpc"/>
+    <input><soap:body use="encoded" namespace="http://futureware.biz/mantisconnect" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="http://futureware.biz/mantisconnect" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+    <operation name="mc_project_add_subproject">
+    <soap:operation soapAction="http://www.mantisbt.org/bugs/api/soap/mantisconnect.php/mc_project_add_subproject" style="rpc"/>
     <input><soap:body use="encoded" namespace="http://futureware.biz/mantisconnect" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
     <output><soap:body use="encoded" namespace="http://futureware.biz/mantisconnect" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
   </operation>

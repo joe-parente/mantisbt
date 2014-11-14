@@ -744,3 +744,10 @@ function mci_soap_fault_access_denied( $p_user_id = 0, $p_detail = '' ) {
 
 	return SoapObjectsFactory::newSoapFault( 'Client', $t_reason );
 }
+# --------------------
+# Check if the realname is a valid (does not account for uniqueness)
+# true: valid, false: not valid
+function user_is_realname_valid( $p_realname ) {
+	return( !string_contains_scripting_chars( $p_realname ) );
+}
+
