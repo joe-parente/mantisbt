@@ -875,6 +875,4 @@ function project_format_id( $p_project_id ) {
 	$t_padding = config_get( 'display_project_padding' );
 	return( utf8_str_pad( $p_project_id, $t_padding, '0', STR_PAD_LEFT ) );
 }
-function project_add_subproject($p_project_id, $p_subproject_id) {
-    project_hierarchy_add($p_subproject_id, $p_project_id, true);
-}
+

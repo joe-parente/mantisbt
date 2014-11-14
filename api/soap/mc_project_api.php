@@ -894,6 +894,10 @@ function mc_project_add( $p_username, $p_password, stdClass $p_project ) {
 	return project_create( $t_name, $t_description, $t_project_status, $t_project_view_state, $t_file_path, $t_enabled, $t_inherit_global );
 }
 
+function mc_project_add_subproject($p_project_id, $p_subproject_id) {
+    project_hierarchy_add($p_subproject_id, $p_project_id, true);
+}
+
 /**
  * Update a project
  *
