@@ -1117,17 +1117,17 @@ function mc_project_get_users( $p_username, $p_password, $p_project_id, $p_acces
 function mc_project_add_user( $p_username, $p_password, $p_project_id, $p_user_id, $p_access ) {
 	$t_user_id = mci_check_login( $p_username, $p_password );
 	if ( $t_user_id === false ) {
-		return new soap_fault( 'Client', '', 'Access Denied' );
+		return mci_soap_fault_access_denied( 'Client', '', 'Access Denied' );
 	}
 	if ( !mci_has_administrator_access( $t_user_id ) ) {
-		return new soap_fault( 'Client', '', 'Access Denied', 'User does not have administrator access');
+		return mci_soap_fault_access_denied( 'Client', '', 'Access Denied', 'User does not have administrator access');
 	}
 
 	if ( !project_exists( $p_project_id ) ) {
-		return new soap_fault( 'Client', '', "Project '$p_project_id' does not exist." );
+		return mci_soap_fault_access_denied( 'Client', '', "Project '$p_project_id' does not exist." );
 	}
 	if ( !user_exists( $p_user_id ) ) {
-		return new soap_fault( 'Client', '', "User '$p_user_id' does not exist." );
+		return mci_soap_fault_access_denied( 'Client', '', "User '$p_user_id' does not exist." );
 	}
 
 	// add the user to the project

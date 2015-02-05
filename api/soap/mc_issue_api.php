@@ -630,8 +630,8 @@ function mci_issue_handler_access_check($p_user_id, $p_project_id, $p_old_handle
  */
 function mc_issue_add($p_username, $p_password, stdClass $p_issue) {
 
-//    error_log('username ' . $p_username);
-//    error_log('password ' . $p_password);
+    error_log('username ' . $p_username);
+    error_log('password ' . $p_password);
 //    $exploded = get_object_vars($p_issue);
 //    foreach ($exploded as $key => $value) {
 //        error_log($key . ' => ' . 'This value is a ' . gettype($value));
