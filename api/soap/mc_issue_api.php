@@ -630,23 +630,6 @@ function mci_issue_handler_access_check($p_user_id, $p_project_id, $p_old_handle
  */
 function mc_issue_add($p_username, $p_password, stdClass $p_issue) {
 
-    error_log('username ' . $p_username);
-    error_log('password ' . $p_password);
-//    $exploded = get_object_vars($p_issue);
-//    foreach ($exploded as $key => $value) {
-//        error_log($key . ' => ' . 'This value is a ' . gettype($value));
-//        $vartype = gettype($value);
-//        if ($vartype == 'string') {
-//            error_log($key . '=>' . $value);
-//        } else {
-//            $sub = get_object_vars($value);
-//            foreach ($sub as $subkey => $subvalue) {
-//                error_log($subkey . '=>' . $subvalue);
-//            }
-//        }
-//    }
-
-
     global $g_project_override;
 
     $t_user_id = mci_check_login($p_username, $p_password);
@@ -655,6 +638,22 @@ function mc_issue_add($p_username, $p_password, stdClass $p_issue) {
     }
 
     $p_issue = SoapObjectsFactory::unwrapObject($p_issue);
+    error_log('username ' . $p_username);
+    error_log('password ' . $p_password);
+    error_log('p_issue - ' . var_dump($p_issue));
+    $exploded = get_object_vars($p_issue);
+    foreach ($exploded as $key => $value) {
+        error_log($key . ' => ' . 'This value is a ' . gettype($value));
+        $vartype = gettype($value);
+        if ($vartype == 'string') {
+            error_log($key . '=>' . $value);
+        } else {
+            $sub = get_object_vars($value);
+            foreach ($sub as $subkey => $subvalue) {
+                error_log($subkey . '=>' . $subvalue);
+            }
+        }
+    }
     $t_project = $p_issue['project'];
     $vars = get_object_vars($t_project);
 //    foreach ($vars as $key => $val) {
